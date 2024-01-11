@@ -1,0 +1,42 @@
+*{
+    background-color:rgb(4, 3, 17);
+    color:white;
+}
+
+.outside{
+    display:grid;
+    justify-content:center;
+}
+
+h1{
+    text-align:center;
+}
+
+.field{
+    width:625px;
+    height:625px;
+    display:grid;
+    grid-template-rows:repeat(25, 25px);
+    border:1px solid white;
+}
+
+.row{
+    display:grid;
+    grid-template-columns:repeat(25, 25px);
+}
+
+.cellAlive{
+    background-color:#c1c0c5;
+    border:1px solid #aeaeb1;
+    cursor:pointer;
+}
+
+.cellDead{
+    background-color:#08051b;
+    border:1px solid white;
+    cursor:pointer;
+}
+
+.cellAlive:hover, .cellDead:hover{
+    background-color:#272e5b;
+}
