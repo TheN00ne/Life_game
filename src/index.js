@@ -10,8 +10,11 @@ const app = document.getElementById("app");
 function App(){
 
   let [field, setField] = useState([]);
+  let [arr, setArr] = useState([]);
   let [id, setId] = useState(0);
-  let [times, setTimes] = useState(0);
+  let [start, setStart] = useState(false);
+  // let [speed, setSpeed] = useState(500);
+  let [inter, setInter] = useState(null);
 
   function change(cell){
     setField(field.map((row) => (
@@ -30,9 +33,9 @@ function App(){
 
   useEffect(() =>
    {
-    for(let i = 0; i < 25; i++){
+    for(let i = 0; i < 50; i++){
       let row = [];
-      for(let j = 0; j < 25; j++){
+      for(let j = 0; j < 50; j++){
         row.push({id:id, isAlive:false, row:i});
         setId(id++);
         console.log("yey");
@@ -41,8 +44,8 @@ function App(){
     }
    }, []);
 
-   function run(){
-      let arr = field.map((row, id) => {
+   function run(prev){
+      let newArr = prev.map((row, id) => {
         let line = row.map((cell, inx) => {
           let prevR;
           let nextR;
@@ -51,13 +54,13 @@ function App(){
           let nextC;
   
           if(id - 1 < 0){
-            prevR = 24;
+            prevR = row.length - 1;
           }
           else{
             prevR = id - 1;
           }
   
-          if(id + 1 > 24){
+          if(id + 1 > row.length - 1){
             nextR = 0;
           }
           else{
@@ -65,13 +68,13 @@ function App(){
           }
           
           if(inx - 1 < 0){
-            prevC = 24;
+            prevC = row.length - 1;
           }
           else{
             prevC = inx - 1;
           }
   
-          if(inx + 1 > 24){
+          if(inx + 1 > row.length - 1){
             nextC = 0;
           }
           else{
@@ -120,13 +123,29 @@ function App(){
         })
         return line;
    })
-      setField(arr);
-   }
+   setField(newArr)
+   return(newArr);
+  }
+  
+  useEffect(() => {
+    setArr(run(field));
+  }, [field])
 
    useEffect(() => {
-    run();
-    console.log("+");
-   }, [times])
+    let id;
+    if(start){
+      id = setInterval(() => {
+        setField(run(arr))
+        // run(field);
+        console.log("+");
+      },200)
+      setInter(id);
+    }
+    else{
+      clearInterval(inter);
+      console.log("-");
+    }
+   }, [start])
 
   return(
     <div className={style.outside}>
@@ -137,19 +156,16 @@ function App(){
             <div className={style.row} key={inx}>
               {
                 row.map((cell) => (
-                  <span className={`${cell.isAlive == true ? style.cellAlive : style.cellDead}`} tabIndex={1} key={cell.id} onMouseDown={() => {change(cell)}}   onKeyDown={(e) => {if(e.key == " "){change(cell)}}}></span>
+                  <span className={`${cell.isAlive == true ? style.cellAlive : style.cellDead}`} tabIndex={1} key={cell.id} onMouseDown={() => {change(cell)}}   onKeyDown={(e) => {if(e.code == "Enter"){change(cell)}}}></span>
                 ))
               }
             </div>
           ))
         }
       </div>
-      <button onClick={() => {run()}}>Next</button>
-      <button onClick={() => {
-            setInterval(() => {
-              setTimes(times + 1);
-            }, 100);
-      }}>Start</button>
+      <button onClick={() => {run(field)}}>Next</button>
+      <button onClick={() => {setStart(!start)}}>Start</button>
+      {/* <input type="range" min={100} max={5000} value={speed} onInput={(e) => {setSpeed(e.currentTarget.value)}}></input> */}
     </div>
   )
 }

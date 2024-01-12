@@ -13,16 +13,16 @@ h1{
 }
 
 .field{
-    width:625px;
-    height:625px;
+    width:800px;
+    height:800px;
     display:grid;
-    grid-template-rows:repeat(25, 25px);
+    grid-template-rows:repeat(50, 16px);
     border:1px solid white;
 }
 
 .row{
     display:grid;
-    grid-template-columns:repeat(25, 25px);
+    grid-template-columns:repeat(50, 16px);
 }
 
 .cellAlive{
