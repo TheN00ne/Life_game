@@ -10,9 +10,8 @@ const app = document.getElementById("app");
 function App(){
 
   let [field, setField] = useState([]);
-  let [second, setSecond] = useState(field);
   let [id, setId] = useState(0);
-  let [isStart, setStart] = useState(false);
+  let [times, setTimes] = useState(0);
 
   function change(cell){
     setField(field.map((row) => (
@@ -36,14 +35,15 @@ function App(){
       for(let j = 0; j < 25; j++){
         row.push({id:id, isAlive:false, row:i});
         setId(id++);
+        console.log("yey");
       }
       field.push(row);
     }
    }, []);
 
    function run(){
-      setSecond(field.map((row, id) => (
-        row.map((cell, inx) => {
+      let arr = field.map((row, id) => {
+        let line = row.map((cell, inx) => {
           let prevR;
           let nextR;
   
@@ -107,23 +107,26 @@ function App(){
             value += 1;
           }
 
-          if((value < 2) || (value > 3)){
-            return {id: inx, isAlive: false}
+          if((cell.isAlive == false) && (value == 3)){
+            return {id: cell.id, isAlive: true, row:cell.row}
+          }
+
+          if((cell.isAlive == true) && ((value == 2) || (value == 3))){
+            return {id: cell.id, isAlive: true, row:cell.row}
           }
           else{
-            return {id: inx, isAlive: true}
+            return {id: cell.id, isAlive: false, row:cell.row}
           }
         })
-      )))
+        return line;
+   })
+      setField(arr);
    }
 
    useEffect(() => {
     run();
-   }, [field])
-
-   useEffect(() => {
-      setField(second);
-   }, [isStart])
+    console.log("+");
+   }, [times])
 
   return(
     <div className={style.outside}>
@@ -141,7 +144,12 @@ function App(){
           ))
         }
       </div>
-      <button onClick={() => {setStart(!isStart)}}>{isStart ? "Stop" : "Start"}</button>
+      <button onClick={() => {run()}}>Next</button>
+      <button onClick={() => {
+            setInterval(() => {
+              setTimes(times + 1);
+            }, 100);
+      }}>Start</button>
     </div>
   )
 }
