@@ -1,6 +1,7 @@
 *{
-    background-color:rgb(4, 3, 17);
+    background-color:#040311;
     color:white;
+    font-family:monospace;
 }
 
 .outside{
@@ -13,30 +14,73 @@ h1{
 }
 
 .field{
-    width:800px;
-    height:800px;
+    width:700px;
+    height:600px;
     display:grid;
-    grid-template-rows:repeat(50, 16px);
+    grid-template-rows:repeat(60, 10px);
     border:1px solid white;
 }
 
 .row{
     display:grid;
-    grid-template-columns:repeat(50, 16px);
+    grid-template-columns:repeat(70, 10px);
 }
 
 .cellAlive{
     background-color:#c1c0c5;
-    border:1px solid #aeaeb1;
+    border-radius:2px;
     cursor:pointer;
 }
 
 .cellDead{
     background-color:#08051b;
-    border:1px solid white;
+    border-radius:2px;
     cursor:pointer;
 }
 
 .cellAlive:hover, .cellDead:hover{
-    background-color:#272e5b;
+    opacity:30%;
 }
+
+.steps{
+    font-size:15px;
+    position:fixed;
+}
+
+.buttons{
+    margin:10px;
+    display:grid;
+    grid-template-columns:repeat(4, 90px);
+    justify-content:center;
+    gap:5px;
+}
+
+.but{
+    display:inline-block;
+    width:90px;
+    height:30px;
+    background-color:#181c39;
+    border:1px solid white;
+    border-radius:10px;
+    font-size:17px;
+    line-height:0px;
+    transition-duration:0.3s;
+    cursor:pointer;
+}
+
+.disBut{
+    display:inline-block;
+    width:90px;
+    height:30px;
+    background-color:#1e1e20;
+    border:1px solid white;
+    border-radius:10px;
+    font-size:17px;
+    line-height:0px;
+    transition-duration:0.3s;
+    cursor:pointer;
+}
+
+button:hover{
+    background-color:#3a208f;
+}   
